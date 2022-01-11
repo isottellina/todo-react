@@ -42,6 +42,7 @@
   },
   "scripts": {
     "serve": "webpack serve --mode development",
-    "build": "webpack build --mode production"
+    "build": "webpack build --mode production",
+    "test:unit": "jest"
   }
 }
