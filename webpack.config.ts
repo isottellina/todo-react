@@ -1,5 +1,6 @@
 import { join, resolve } from 'path';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const baseDir = resolve(__dirname)
 
 import { Configuration as WebpackConfiguration } from 'webpack';
@@ -12,7 +13,10 @@ export interface Configuration extends WebpackConfiguration {
 const htmlPlugin = new HtmlWebPackPlugin({
   filename: './index.html',
   template: './static/index.html',
-})
+});
+
+const cssPlugin = new MiniCssExtractPlugin();
+
 const port = Number(process.env.PORT) || 8080
 
 export const config: Configuration = {
@@ -47,7 +51,7 @@ export const config: Configuration = {
       {
         test: /\.s[sc]ss$/i,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader",
         ],
@@ -61,10 +65,10 @@ export const config: Configuration = {
   },
   output: {
     filename: 'index.js',
-    path: resolve(baseDir, 'dist/src'),
+    path: resolve(baseDir, 'dist/'),
     publicPath: '/',
   },
-  plugins: [htmlPlugin],
+  plugins: [htmlPlugin, cssPlugin],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     modules: ['src', 'node_modules'],
